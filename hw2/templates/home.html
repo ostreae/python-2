@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Анкета</title>
+<body>
+<br>
+<div align="left"><h2>Здравствуйте! Заполните, пожалуйста, анкету:</h2></div>
+</head>
+<form action="" method="GET">
+<h5>
+<ul>
+<p><br>
+	<p>Ваше имя / ваш псевдоним <input type="text" name="username" required placeholder="имя"></p>
+	<p>Ваш пол:
+	<label class="radio-inline">
+		<input type="radio" name="gender" value="m" required>мужской
+		<input type="radio" name="gender" value="f">женский
+	</label></p>
+	<p>Вам <input type="number" name="age" value="" min="6" max="99" required pattern="[0-9]+"> лет/год<p>
+	<p>Вашим первым языком является <input type="text" name="language" required placeholder="русский"> язык</p>
+	<p>Вы родились в городе/деревне/селе <input type="text" name="city" required placeholder="название места"></p>
+	<p>Ваше образование:
+	<select required name="education">
+		<option value="0">(не)законченное начальное общее</option>
+		<option value="1">(не)законченное среднее (полное) общее</option>
+		<option value="2">(не)законченное среднее профессиональное</option>
+		<option value="3">(не)законченное высшее</option>
+	</select><p>
+	<p>По образованию Вы
+	<select required name="specialization">
+		<option value="0">лингвист/филолог/преподаватель русского языка</option>
+		<option value="1">другое</option>
+	</select>
+  <p>На следующие вопросы просим отвечать одним-двумя словами в именительном падеже и с маленькой буквы.</p>
+  <p>1. Допустим, вы написали что-то карандашом, а потом вам понадобилось это стереть. Какой предмет вы для этого используете? <input type="text" name="rubber"></p>
+  <p>2. А если нужно избавиться от надписи, сделанной ручкой? <input type="text" name="corrector"></p>
+  <p>3. Куда вы выбросите сломанный карандаш или стержень от ручки? <input type="text" name="bin"></p>
+	<p><button type="submit">Отправить</button><p>
+</p>
+</ul>
+
+</h5>
+</form>
+
+</body>
+</html>
