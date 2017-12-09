@@ -1,15 +1,6 @@
 [
     {
         "language": "русский",
-        "username": "Анна",
-        "specialization": "0",
-        "age": "19",
-        "education": "3",
-        "city": "Минск",
-        "gender": "f"
-    },
-    {
-        "language": "русский",
         "corrector": "корректор",
         "gender": "f",
         "rubber": "стирка",
