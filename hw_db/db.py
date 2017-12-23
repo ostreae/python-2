@@ -45,7 +45,7 @@ def table_words():
         c.execute('''UPDATE words
                   SET Glosses = ?
                   WHERE id = ?
-                  ''', (pure_glosses[i], i+1))
+                  ''', (pure_glosses[i], i + 1))
 
     return c
 
@@ -94,13 +94,12 @@ def table_words_glosses():
             a = c.fetchall()
             if a:
                 c.execute('INSERT INTO words_glosses (id_word, id_gloss) VALUES (?, ?)',
-                              (i[0], a[0][0]))
-    c.execute('DROP TABLE IF EXISTS wordforms')
+                          (i[0], a[0][0]))
     return c
 
 
 def graph():
-    return()
+    return ()
 
 
 def main():
