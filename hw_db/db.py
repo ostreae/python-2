@@ -85,24 +85,22 @@ def table_words_glosses():
     c.execute('SELECT id, Glosses FROM words')
     word_glosses = c.fetchall()
 
-    c.execute('SELECT id, Abbreviation FROM glosses')
-    list_glosses = c.fetchall()
-
     for i in word_glosses:
         gloss = i[1].split(' ')
         for n in gloss:
-            for l in list_glosses:
-                if gloss == l:
-                    c.execute('INSERT INTO words_glosses (id_word, id_gloss) VALUES (?, ?)',
-                              (i[0], l[0]))
-
-        print(gloss)
-
+            glosses = []
+            glosses.append(n)
+            c.execute('SELECT id FROM Glosses WHERE Abbreviation = ?', (glosses))
+            a = c.fetchall()
+            if a:
+                c.execute('INSERT INTO words_glosses (id_word, id_gloss) VALUES (?, ?)',
+                              (i[0], a[0][0]))
+    c.execute('DROP TABLE IF EXISTS wordforms')
     return c
 
 
 def graph():
-
+    return()
 
 
 def main():
