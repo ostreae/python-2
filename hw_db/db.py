@@ -6,8 +6,6 @@
 import sqlite3
 import re
 import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
 
 conn = sqlite3.connect('hittite.db')
 c = conn.cursor()
@@ -88,9 +86,8 @@ def table_words_glosses():
     for i in word_glosses:
         gloss = i[1].split(' ')
         for n in gloss:
-            glosses = []
-            glosses.append(n)
-            c.execute('SELECT id FROM Glosses WHERE Abbreviation = ?', (glosses))
+            glosses = [n]
+            c.execute('SELECT id FROM Glosses WHERE Abbreviation = ?', glosses)
             a = c.fetchall()
             if a:
                 c.execute('INSERT INTO words_glosses (id_word, id_gloss) VALUES (?, ?)',
@@ -99,7 +96,79 @@ def table_words_glosses():
 
 
 def graph():
-    return ()
+    c.execute("SELECT id_gloss FROM words_glosses")
+    num = c.fetchall()
+    id_num = {}
+
+    for n in num:
+        if n[0] in id_num:
+            id_num[n[0]] += 1
+        else:
+            id_num[n[0]] = 1
+
+    c.execute("SELECT id, Abbreviation FROM glosses")
+    glosses = c.fetchall()
+    gl = []
+    n = []
+
+    for g in glosses:
+        for i in id_num:
+            if g[0] == i:
+                gl.append(g[1])
+                n.append(id_num[i])
+
+    plt.bar(gl, n)
+    plt.title("All glosses")
+    plt.xlabel("Glosses")
+    plt.ylabel("Number of glosses")
+    plt.show()
+
+    case = ['ACC', 'DAT', 'INSTR', 'LOC', 'DAT-LOC' 'NOM', 'ABL', 'VOC']
+    case_gl = []
+    case_num = []
+
+    pos = ['ADJ', 'ADV', 'AUX', 'COMP', 'CONJ', 'DEM', 'INDEF', 'N', 'NEG', 'P', 'PART',
+           'POSS', 'PRON', 'PRV', 'PTCP', 'REL', 'V']
+    pos_gl = []
+    pos_num = []
+
+    person = ['1PL', '1SG', '2PL', '2SG', '3PL', '3SG']
+    person_gl = []
+    person_num = []
+
+    for k, gloss in enumerate(gl):
+        for cs in case:
+            if cs == gloss:
+                case_gl.append(cs)
+                case_num.append(n[k])
+        for p in pos:
+            if p == gloss:
+                pos_gl.append(p)
+                pos_num.append(n[k])
+        for per in person:
+            if per == gloss:
+                person_gl.append(per)
+                person_num.append(n[k])
+
+    plt.bar(case_gl, case_num)
+    plt.title("Case")
+    plt.xlabel("Glosses")
+    plt.ylabel("Number of glosses")
+    plt.show()
+
+    plt.bar(pos_gl, pos_num)
+    plt.title("Part of speech")
+    plt.xlabel("Glosses")
+    plt.ylabel("Number of glosses")
+    plt.show()
+
+    plt.bar(person_gl, person_num)
+    plt.title("Person and number")
+    plt.xlabel("Glosses")
+    plt.ylabel("Number of glosses")
+    plt.show()
+
+    return c
 
 
 def main():
@@ -108,7 +177,7 @@ def main():
     table_words_glosses()
     conn.commit()
     conn.close()
-    # graph()
+    graph()
 
 
 if __name__ == '__main__':
