@@ -7,11 +7,12 @@ import sqlite3
 import re
 import matplotlib.pyplot as plt
 
-conn = sqlite3.connect('hittite.db')
-c = conn.cursor()
-
 
 def table_words():
+
+    conn = sqlite3.connect('hittite.db')
+    c = conn.cursor()
+
     c.executescript('''DROP TABLE IF EXISTS words;
             CREATE TABLE IF NOT EXISTS words
             (id INTEGER PRIMARY KEY,
@@ -44,11 +45,16 @@ def table_words():
                   SET Glosses = ?
                   WHERE id = ?
                   ''', (pure_glosses[i], i + 1))
-
+    conn.commit()
+    conn.close()
     return c
 
 
 def table_glosses():
+
+    conn = sqlite3.connect('hittite.db')
+    c = conn.cursor()
+
     abbreviation = []
     meaning = []
     glosses = []
@@ -70,10 +76,16 @@ def table_glosses():
     for i in range(1, len(abbreviation) + 1):
         c.execute('INSERT INTO glosses (Abbreviation, Meaning) VALUES (?, ?)',
                   [abbreviation[i - 1], meaning[i - 1]])
+    conn.commit()
+    conn.close()
     return c
 
 
 def table_words_glosses():
+
+    conn = sqlite3.connect('hittite.db')
+    c = conn.cursor()
+
     c.executescript('''DROP TABLE IF EXISTS words_glosses;
         CREATE TABLE IF NOT EXISTS words_glosses
         (id_word INTEGER,
@@ -92,10 +104,16 @@ def table_words_glosses():
             if a:
                 c.execute('INSERT INTO words_glosses (id_word, id_gloss) VALUES (?, ?)',
                           (i[0], a[0][0]))
+    conn.commit()
+    conn.close()
     return c
 
 
 def graph():
+
+    conn = sqlite3.connect('hittite.db')
+    c = conn.cursor()
+
     c.execute("SELECT id_gloss FROM words_glosses")
     num = c.fetchall()
     id_num = {}
@@ -168,6 +186,9 @@ def graph():
     plt.ylabel("Number of glosses")
     plt.show()
 
+    conn.commit()
+    conn.close()
+
     return c
 
 
@@ -175,8 +196,6 @@ def main():
     table_words()
     table_glosses()
     table_words_glosses()
-    conn.commit()
-    conn.close()
     graph()
 
 
